@@ -1,0 +1,15 @@
+.About{
+    margin-top: 0px;
+}
+
+.content{
+    background-color: rgb(180, 180, 255);
+    float: right;
+    margin-right: 120px;
+    margin-top: 40px;
+    height: 400px;
+    width: 1000px;
+    padding: 50px 60px;
+    text-align: justify;
+    display: flex;
+}

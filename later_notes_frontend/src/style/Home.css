@@ -1,0 +1,36 @@
+.Home{
+    margin-top: 10px;
+    float: right;
+    background-image: url("../icons/backgroundHome.jpg");
+    width: 1230px;
+    height: 500px
+}
+
+.WelcomUser {
+    width: 30%;
+    height: auto;
+    margin: auto;
+    margin-top: 130px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 1px 6px  #727171;
+}
+
+.WelcomUser h1{
+    width: 350px;
+    margin: auto;
+    height: auto;
+    font-weight: 600;
+    color: #251cd2;
+    text-align: center;
+    font-family: "Arial";
+}
+
+.UiLogo{
+    width: 100px;
+    margin-top: 50px;
+    margin-left: 50px;
+}

@@ -1,0 +1,67 @@
+.Register{
+    background-image: url("../icons/background.jpg");
+    width: 1535px;
+    height : 715px;
+    border: 2px solid #f1f1f1; 
+    margin-top: 6px;  
+}
+
+.registerForm {
+    width: 30%;
+    height: auto;
+    margin: auto;
+    margin-top: 70px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 20px; 
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 1px 6px  #727171;
+}
+
+.registerForm input{
+    border: 2px solid rgb(165, 161, 161);
+    width: 300px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.registerForm input:focus {
+    outline: none !important;
+    border:1px 2px solid #251cd2;
+  }
+
+.registerForm input:hover{
+    border: 2px solid #251cd2;
+    border-radius: 5px;
+}
+
+h1{
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #251cd2;
+}
+
+.registerForm .registerButton{
+    color: #f2f0f0;
+    padding: 0px 10px;
+    margin-left: 25px;
+    background-color: #251cd2;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.registerForm .alreadyAccount{
+    color: rgb(81, 81, 255);
+    cursor: pointer;
+}
+.error{
+    color: red;
+    font-style: italic;
+    font-size:x-small;
+    font-weight: 500;
+    padding: 0px;
+    margin: 0px;
+}
