@@ -1,38 +1,88 @@
 const express = require("express")
 const cors = require("cors")
+const JWT = require("jsonwebtoken");
+const multer = require('multer');
+const bodyParser = require('body-parser');
+
 const register = require("./userData/register")
 const login = require("./userData/login")
 const forgotPassword = require("./userData/forgotPassword")
+
+require("dotenv").config();
 
 
 const app = express()
 const port = process.env.PORT || 3001;
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true}))
+app.use(express.static("./public"))
 app.use(cors())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/register", async(req, res)=> {
-    try{
-        const registerUserData = req.body
-        const response = await register(registerUserData)
-        res.status(200).send({message: "Registered Successfully"})
-    }
-    catch(error){
-        res.status(400).send({error: error.message})
-    }
+ // handle storage using multer
+// var storage = multer.diskStorage({
+//   destination: (req, file, callBack) => {
+//       callBack(null, './public/images/')     // directory name where save the file
+//   },
+//   filename: (req, file, callBack) => {
+//       callBack(null, Date.now() + '-' + file.originalname)
+//   }
+// })
+
+// var upload = multer({
+//   storage: storage
+// })
+
+app.post("/register", async(req, res)=> {  // upload.single('imageFile'),
+  try{
+    // if (!req.file) {
+    //   console.log("No file upload");
+    // } else {
+    //   console.log(req.file)
+      const registerUserData = req.body
+      const response = await register(registerUserData)
+      res.status(200).send({message: "Registered Successfully"})
+  }
+  catch(error){
+    res.status(400).send({error: error.message})
+  }
 })
 
 app.post("/login", async(req, res)=> {
-    try{
-        const loginUserData = req.body
-        const response = await login(loginUserData)
-        res.status(200).send({message: "login Successfully", user: response.recordset})
-    }
-    catch(error){
-        res.status(400).send({error: error.message})
-    }
+  try{
+    const loginUserData = req.body
+    const email = loginUserData.email
+    const response = await login(loginUserData)
+        
+    // Send JWT access token
+    const accessToken = await JWT.sign(
+      { email },
+      process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: "1m",
+        }
+    );
+
+    // Refresh token
+    const refreshToken = await JWT.sign(
+      { email },
+      process.env.REFRESH_TOKEN_SECRET,
+        {
+          expiresIn: "5m",
+        }
+    );
+
+    //Set refersh token in refreshTokens array
+    refreshTokens.push(refreshToken);
+    res.status(200).send({message: "login Successfully", accessToken, refreshToken, user: response.recordset})
+  }
+  catch(error){
+    console.log(error)
+    res.status(400).send({error: error.message})
+  }
 })
+
+let refreshTokens = [];
 
 app.post("/forgotpassword", async(req, res)=> {
     try{
@@ -46,6 +96,66 @@ app.post("/forgotpassword", async(req, res)=> {
 })
 
 
+// Create new access token from refresh token
+app.post("/token", async (req, res) => {
+    const refreshToken = req.header("x-auth-token");
+  
+    // If token is not provided, send error message
+    if (!refreshToken) {
+      res.status(401).send({
+        errors: [
+          {
+            msg: "Token not found",
+          },
+        ],
+      });
+    }
+  
+    // If token does not exist, send error message
+    if (!refreshTokens.includes(refreshToken)) {
+      res.status(403).send({
+        errors: [
+          {
+            msg: "Invalid refresh token",
+          },
+        ],
+      });
+    }
+  
+    try {
+      const user = await JWT.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      
+     const { email } = user;
+     const accessToken = await JWT.sign(
+       { email },
+       process.env.ACCESS_TOKEN_SECRET,
+       { expiresIn: "1m" }
+     );
+     res.json({ accessToken });
+   } 
+   catch (error) {
+     res.status(403).json({
+       errors: [
+         {
+           msg: "Invalid token",
+         },
+       ],
+     });
+   }
+ });
+
+ // Deauthenticate - log out
+ // Delete refresh token
+app.delete("/logout", (req, res) => {
+    const refreshToken = req.header("x-auth-token");
+  
+    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+    res.sendStatus(204);
+  });
+  
 
 app.listen(port, () => {
     console.log(`Server is running at port no ${port}`);
@@ -95,67 +205,5 @@ app.listen(port, () => {
 
 
 
-
-
-
-/*app.post("/register", (req, res)=> {
-    const { username, email, password} = req.body
-//     var sqlInsert = `INSERT INTO UserRegistration values('${username}', '${email}', '${password}')`
-//     // var userFound = `SELECT * FROM UserRegistration WHERE email = '${email}' AND password = '${password}' AND username='${username}'`
-    
-//     // db.query(userFound, function(err, result) {
-//     //     if (err){
-//     //         res.send({error: err})
-//     //     } 
-//     //     if(result.recordset.length != 0){
-//     //         res.send({message: "User Already exists"})
-//     //     }
-//     //     else{
-//             db.query(sqlInsert, function(err, result) {
-//                 if (err){
-//                     res.status(400).send({error: err})
-//                  } 
-//                 else{
-//                     res.status(201).send({message: "registered Successfully"})
-//                 }
-//             })
-//         // }
-//     });
-});
-
-app.post("/login", (req, res)=> {
-    const { email, password} = req.body
-    var sql = `SELECT * FROM UserRegistration WHERE email = '${email}' AND password = '${password}'`
-    db.query(sql, function(err, result) {
-        if (err){
-            console.log(err)
-            res.send({error: err})
-        } 
-
-        else{//(result.recordset !=0){
-            console.log(result)
-            res.send({message: "login Successfully"})
-        }
-        // else{
-        //     console.log("invalid")
-        //     res.status(404).send({error: "Invalid email or password"})
-        // }
-   });
-})*/
-
-
-/*app.post("/forgotpassword", (req, res)=> {
-    const { email, password, ConfirmPassword} = req.body
-    var sql = `UPDATE UserRegistration SET password = '${password}' WHERE email ='${email}'`
-    db.query(sql, function(err, result) {
-        if (err){
-           res.status(404).send({error: err})
-        } 
-        else{
-            console.log(result)
-            res.send({message: "password changed"})
-        }
-   });
-})*/
 
 

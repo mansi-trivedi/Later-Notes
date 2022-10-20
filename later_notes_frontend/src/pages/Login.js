@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom"
 import axios from "axios"
 
 
-const Login = ({updateToken}) => {
+const Login = () => {
     const navigate = useNavigate(); 
 
     const initialValue = {
@@ -13,7 +13,7 @@ const Login = ({updateToken}) => {
     }
 
     const [ user, setUser] = useState(initialValue)
-    // const [ loginErrors, setLoginErrors] = useState({})
+    const [ loginErrors, setLoginErrors] = useState({})
 
     const handleChange = e => {
         const { name, value } = e.target
@@ -23,26 +23,34 @@ const Login = ({updateToken}) => {
         })
     };
 
-    /*const validateForm = (values) => {
+    const validateForm = (values) => {
+        let errors = {}
+        let formIsValid = true;
+
         if (!values.email) {
-            loginErrors.email = "Email is required!";
+            formIsValid = false;
+            errors.email = "Email is required!";
         }
         if (!values.password) {
-            loginErrors.password = "Password is required";
+            formIsValid = false;
+            errors.password = "Password is required";
         }
-        setLoginErrors(loginErrors)
-    };*/
+        setLoginErrors(errors)
+        return formIsValid
+    };
 
     const login = async () => {
         try{
-            // validateForm(user);
-            // console.log(loginErrors)
-            // if(Object.keys(loginErrors).length === 0){
+            if (validateForm(user)) {
                 const response = await axios.post("http://localhost:3001/login", user)
+                if (response.data.accessToken) {
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                }
                 alert(response.data.message)
-                updateToken(response.data.user);
                 navigate("/")
-            // }
+                window.location.reload();
+                
+            }
         }
         catch(error){
             alert(error.response.data.error);
@@ -54,9 +62,9 @@ const Login = ({updateToken}) => {
             <div className="loginForm">
                 <h1>LOGIN</h1>
                 <input type="text" name="email" value={user.email} onChange={handleChange} placeholder="Email"></input>
-                {/* <p className="error">{loginErrors.email}</p> */}
+                <p className="error">{loginErrors.email}</p>
                 <input type="password" name="password" value={user.password} onChange={handleChange}  placeholder="Password" ></input>
-                {/* <p className="error">{loginErrors.password}</p> */}
+                <p className="error">{loginErrors.password}</p>
                 <p className="forgotPassword" onClick={() => navigate("/ForgotPassword")}>Forgot Password?</p>
                 <button className="loginButton" onClick={login}>Login</button>
                 <p className="notHaveAccount" onClick={() => navigate("/Register")}>Need an Account? SIGN UP</p>

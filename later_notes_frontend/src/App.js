@@ -8,33 +8,33 @@ import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import Welcome from './pages/Welcome';
 import Home from './pages/Home';
+import ErrorPage from './pages/ErrorPage';
 
 
 function App() {
 
-  const [ token, setToken] = useState({})
+  const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
-    setToken(JSON.parse(localStorage.getItem("token")))
-  }, [])
-
-  const updateToken = (token) => {
-    localStorage.setItem("token", JSON.stringify(token))
-    setToken(token)
-  }
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
 
   return (
      <>
         <Router>
             <Routes>
                 <Route exact path='/' element={
-                  token ? <Home/> : <Welcome/>
+                  currentUser ? <Home/> : <Welcome/>
                 }/>  
                 <Route path='/Dashboard' element={<Dashboard/>}/>
                 <Route path='/AboutUS' element={<AboutUs/>}/>
-                <Route path='/Login' element={<Login updateToken={updateToken}/>}/>                           
+                <Route path='/Login' element={<Login/>}/>                         
                 <Route path='/Register' element={<Register/>}/>
                 <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+                <Route path='*' element={<ErrorPage/>}/>
             </Routes>
           </Router> 
      </>

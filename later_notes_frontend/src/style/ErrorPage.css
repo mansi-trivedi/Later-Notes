@@ -1,0 +1,50 @@
+.errorPage{
+    height: auto;
+    margin-top: 0px;  
+    height : 720px;
+}
+
+.errorImg{
+    margin-top: 100px;
+    margin-left: 100px;
+    width: 40%;
+    float: left;
+}
+
+.errorImg img{
+    margin-left: 100px;
+    width: 500px;
+    height: 500px;
+}
+
+.errorData{
+    text-align: center;
+    margin-top: 180px;
+    margin-right: 200px;
+    width: 40%;
+    float: right;
+}
+
+.errorData h1{
+    font-weight: bold;
+    font-size: 100px;
+}
+
+.errorData h2{
+    font-weight: bold;
+    font-weight: 600;
+}
+
+.errorData p{
+    font-weight: 600;
+}
+
+.errorData button{
+    text-transform: uppercase;
+    color: white;
+    background: #251cd2;
+    border-radius: 15px;
+    padding: 10px;
+    font-weight: 600;
+    margin-top: 0px;
+}

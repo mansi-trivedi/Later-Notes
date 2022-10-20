@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 const TopNav = () => {
 
     const logOut = () =>{
-        localStorage.clear();
+        localStorage.removeItem("user");
         alert("Logged Out Successfully")
         window.location.href = '/';
     }

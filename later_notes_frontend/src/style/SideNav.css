@@ -55,7 +55,7 @@
     display: block;
 } 
 
-.image-upload{
+/* .image-upload{
     width: 100px;
     color: white;
     border-radius: 10px;
@@ -65,7 +65,7 @@
     text-align: center;
     cursor: pointer;
     padding: 5px 10px;
-}
+}  */
 
 .userDetail{
     margin-top: 50px;

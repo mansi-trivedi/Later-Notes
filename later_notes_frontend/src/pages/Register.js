@@ -12,10 +12,11 @@ const Register = () => {
         email:"",
         password:"",
         reEnterPassword: ""
+        // profileImg: ""
     }
 
     const [ formValues, setFormValues] = useState(initialValue)
-    //const [ formErrors, setFormErrors] = useState({})
+    const [ formErrors, setFormErrors] = useState({})
 
     const handleChange = e => {
         const { name, value } = e.target
@@ -25,50 +26,71 @@ const Register = () => {
         })
     }
 
-    /*const validateForm = (values) => {
-        const error = {}
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    /*const imageHandler = (e) => {
+        const file = e.target.files[0]
+        setFormValues({
+            ...formValues,
+            profileImg: file    //URL.createObjectURL(file)
+        })
+    }*/
+      
+    const validateForm = (values) => {
+        let errors = {}
+        let formIsValid = true;
+        let regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
         if (!values.username) {
-        error.username = "Username is required!";
+            formIsValid = false;
+            errors.username = "Username is required!";
         }
 
         if (!values.email) {
-        error.email = "Email is required!";
+            formIsValid = false;
+            errors.email = "Email is required!";
         } else if (!regex.test(values.email)) {
-        error.email = "This is not a valid email format!";
+            formIsValid = false;
+            errors.email = "This is not a valid email format!";
         }
 
         if (!values.password) {
-        error.password = "Password is required";
+            formIsValid = false;
+            errors.password = "Password is required";
         } else if (values.password.length < 4) {
-        error.password = "Password must be more than 4 characters";
+            formIsValid = false;
+            errors.password = "Password must be more than 4 characters";
         } else if (values.password.length > 10) {
-        error.password = "Password cannot exceed more than 10 characters";
+            formIsValid = false;
+            errors.password = "Password cannot exceed more than 10 characters";
         }
 
         if (!values.reEnterPassword) {
-            error.reEnterPassword = "Confirm Password is required";
+            formIsValid = false;
+            errors.reEnterPassword = "Confirm Password is required";
         }else if(values.password !== values.reEnterPassword){
-            error.reEnterPassword = "Confirm Password must be same as Password";
+            formIsValid = false;
+            errors.reEnterPassword = "Confirm Password must be same as Password";
         }
 
-        setFormErrors(error)
-    };*/
+        /*if(!values.profileImg){
+            formIsValid = false;
+            errors.profileImg = "Image is required"
+        }else if (!values.profileImg.name.match(/\.(jpg|jpeg|png|gif)$/)){
+            formIsValid = false;
+            errors.profileImg = "Please select valid image"
+        }*/
+
+        setFormErrors(errors)
+        return formIsValid
+    };
+
 
     const register = async() => {
         try{
-            // validateForm(formValues);
-            // console.log(formErrors)
-            // if(Object.keys(formErrors).length === 0){
-            const { username, email, password, reEnterPassword } = formValues
-            if( username && email && password && (password  === reEnterPassword)){
+            console.log(formValues)
+            if (validateForm(formValues)) {
                 const response = await axios.post("http://localhost:3001/register", formValues)
                 alert(response.data.message)
                 navigate("/Login")
-            }
-            else{
-                alert("Invalid Input")
             }
         }
         catch(error){
@@ -81,13 +103,17 @@ const Register = () => {
             <div className="registerForm">
                 <h1>Register</h1>
                 <input type="text" name="username" value={formValues.username} placeholder="username" onChange={ handleChange }></input>
-                {/* <p className="error">{formErrors.username}</p>   */}
+                <p className="error">{formErrors.username}</p>   
                 <input type="text" name="email" value={formValues.email} placeholder="Email" onChange={ handleChange }></input>
-                {/* <p className="error">{formErrors.email}</p>  */}
+                <p className="error">{formErrors.email}</p>
                 <input type="password" name="password" value={formValues.password} placeholder="Password" onChange={ handleChange }></input>
-                {/* <p className="error">{formErrors.password}</p>  */}
+                <p className="error">{formErrors.password}</p>
                 <input type="password" name="reEnterPassword" value={formValues.reEnterPassword} placeholder="Re-enter Password" onChange={ handleChange }></input>
-                {/* <p className="error">{formErrors.reEnterPassword}</p>  */}
+                <p className="error">{formErrors.reEnterPassword}</p>
+                {/* <label className="profile">Upload Your Photo:-</label>
+                <br/>
+                <input type="file" id="myFile" name="imageFile" onChange={imageHandler}></input>
+                <p className="error">{formErrors.profileImg}</p> */}
                 <button className="registerButton" onClick={register} >Register</button>
                 <p className="alreadyAccount" onClick={() => navigate("/Login")}>already have Account? LOGIN</p>
             </div>
@@ -96,3 +122,129 @@ const Register = () => {
 }
 
 export default Register
+
+
+/*import React, { useState } from "react"
+import "../style/Register.css"
+import {useNavigate} from "react-router-dom"
+import axios from "axios"
+
+const Register = () => {
+
+    const navigate = useNavigate();
+
+    const initialValue = {
+        username: "",
+        email:"",
+        password:"",
+        reEnterPassword: "",
+        profileImg: ""
+    }
+
+    const [ formValues, setFormValues] = useState(initialValue)
+    const [ formErrors, setFormErrors] = useState({})
+
+    const handleChange = e => {
+        const { name, value } = e.target
+        setFormValues({
+            ...formValues,
+            [name]: value
+        })
+    }
+
+    const imageHandler = (e) => {
+        const file = e.target.files[0]
+        setFormValues({
+            ...formValues,
+            profileImg: file    //URL.createObjectURL(file)
+        })
+    }
+      
+    const validateForm = (values) => {
+        let errors = {}
+        let formIsValid = true;
+        let regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+        if (!values.username) {
+            formIsValid = false;
+            errors.username = "Username is required!";
+        }
+
+        if (!values.email) {
+            formIsValid = false;
+            errors.email = "Email is required!";
+        } else if (!regex.test(values.email)) {
+            formIsValid = false;
+            errors.email = "This is not a valid email format!";
+        }
+
+        if (!values.password) {
+            formIsValid = false;
+            errors.password = "Password is required";
+        } else if (values.password.length < 4) {
+            formIsValid = false;
+            errors.password = "Password must be more than 4 characters";
+        } else if (values.password.length > 10) {
+            formIsValid = false;
+            errors.password = "Password cannot exceed more than 10 characters";
+        }
+
+        if (!values.reEnterPassword) {
+            formIsValid = false;
+            errors.reEnterPassword = "Confirm Password is required";
+        }else if(values.password !== values.reEnterPassword){
+            formIsValid = false;
+            errors.reEnterPassword = "Confirm Password must be same as Password";
+        }
+
+        if(!values.profileImg){
+            formIsValid = false;
+            errors.profileImg = "Image is required"
+        }else if (!values.profileImg.name.match(/\.(jpg|jpeg|png|gif)$/)){
+            formIsValid = false;
+            errors.profileImg = "Please select valid image"
+        }
+
+        setFormErrors(errors)
+        return formIsValid
+    };
+
+
+    const register = async() => {
+        try{
+            console.log(formValues)
+            if (validateForm(formValues)) {
+                const response = await axios.post("http://localhost:3001/register", formValues)
+                alert(response.data.message)
+                navigate("/Login")
+            }
+        }
+        catch(error){
+            alert(error.response.data.error);
+        }
+    }
+
+    return (
+        <div className="Register">
+            <div className="registerForm">
+                <h1>Register</h1>
+                <input type="text" name="username" value={formValues.username} placeholder="username" onChange={ handleChange }></input>
+                <p className="error">{formErrors.username}</p>   
+                <input type="text" name="email" value={formValues.email} placeholder="Email" onChange={ handleChange }></input>
+                <p className="error">{formErrors.email}</p>
+                <input type="password" name="password" value={formValues.password} placeholder="Password" onChange={ handleChange }></input>
+                <p className="error">{formErrors.password}</p>
+                <input type="password" name="reEnterPassword" value={formValues.reEnterPassword} placeholder="Re-enter Password" onChange={ handleChange }></input>
+                <p className="error">{formErrors.reEnterPassword}</p>
+                <label className="profile">Upload Your Photo:-</label>
+                <br/>
+                <input type="file" id="myFile" name="imageFile" onChange={imageHandler}></input>
+                <p className="error">{formErrors.profileImg}</p>
+                <input className="registerButton" type="submit" value="Register"></input>
+                <p className="alreadyAccount" onClick={() => navigate("/Login")}>already have Account? LOGIN</p>
+            </div>
+        </div>
+    )
+}
+
+export default Register*/
