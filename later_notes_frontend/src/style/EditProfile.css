@@ -1,0 +1,129 @@
+.editProfile {
+    background-image: url("../icons/background.jpg");
+    width: 1535px;
+    height: 715px;
+    margin-top: 6px;
+    border: 2px solid #f1f1f1;
+}
+
+.editProfileContent {
+    width: 55%;
+    height: 400px;
+    margin: auto;
+    margin-top: 80px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 1px 6px #727171;
+}
+
+.userData h2 {
+    text-align: center;
+    margin: 10px;
+    font-size: x-large;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #251cd2;
+    margin-bottom: 20px;
+}
+
+.ProfileImage {
+    width: 30%;
+    float: left;
+}
+
+.ProfileImage img {
+    border: 2px solid rgb(0, 17, 255);
+    width: 140px;
+    height: 140px;
+    margin: auto;
+    border-radius: 10px;
+    margin-top: 40px;
+    margin-left: 60px;
+}
+
+#input[type="file"] {
+    display: none;
+}
+
+.photo {
+    width: 100px;
+    margin-top: 10px;
+    margin-left: 80px;
+    color: white;
+    border-radius: 10px;
+    background-color: #251cd2;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 0px;
+}
+
+.userDetail {
+    width: 70%;
+    float: right;
+    display: inline;
+}
+
+.userDetail label {
+    color: #251cd2;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.userDetail input {
+    padding-left: 5px;
+    border: 2px solid #dbdbdb;
+    border-radius: 5px;
+    width: 250px;
+}
+
+.userDetail input:focus {
+    outline: none !important;
+    border: 1px 2px solid #251cd2;
+}
+
+.userDetail input:hover {
+    border: 2px solid #251cd2;
+    border-radius: 5px;
+}
+
+.userDetail textarea:focus {
+    outline: none !important;
+    border: 1px 2px solid #251cd2;
+}
+
+.userDetail textarea:hover {
+    border: 2px solid #251cd2;
+    border-radius: 5px;
+}
+
+.userDetail textarea {
+    padding-left: 5px;
+    border: 2px solid #dbdbdb;
+    border-radius: 5px;
+    width: 250px;
+}
+
+.Inline {
+    width: 45%;
+    display: inline-block;
+    margin: 10px;
+}
+
+.SaveBtn {
+    float: right;
+    margin-right: 30px;
+}
+
+.SaveBtn .save {
+    text-transform: uppercase;
+    color: white;
+    background: #251cd2;
+    border-radius: 10px;
+    border: 2px solid #251cd2;
+    margin-bottom: 5px;
+    font-size: large;
+    align-items: center;
+}

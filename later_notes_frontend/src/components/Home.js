@@ -1,12 +1,11 @@
 import React from 'react'
 import "../style/Home.css"
-import SideNav from '../navigation/SideNav'
-import Footer from '../footer/Footer'
-import TopNav from '../navigation/TopNav'
+import Footer from './Footer'
+import TopNav from './TopNav'
+import SideNav from './SideNav';
 
 const Home = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
-
+  const userData = JSON.parse(localStorage.getItem('user')).user;
   return (
     <>
       <TopNav/>
@@ -14,7 +13,7 @@ const Home = () => {
       <div className='Home'>
         <div className='WelcomUser'>
           {
-            user ? <h1>WELCOME BACK, <br/> <b>{user.user[0].username}</b></h1> : <h1><b>WELCOME BACK</b></h1>
+            userData ? <h1>WELCOME BACK, <br/> <b>{userData.username}</b></h1> : <h1><b>WELCOME BACK</b></h1>
           }
         </div>
       </div>

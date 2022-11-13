@@ -1,9 +1,9 @@
 .Home{
     margin-top: 10px;
-    float: right;
     background-image: url("../icons/backgroundHome.jpg");
-    width: 1230px;
-    height: 500px
+    width: 1220px;
+    height: 500px;
+    float: right;
 }
 
 .WelcomUser {

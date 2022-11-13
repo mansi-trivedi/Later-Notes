@@ -4,22 +4,22 @@
 }
 
 .Pages{
-    width: 800px; 
+    width: 1000px; 
     height: 100px;
     display: flex;
 }
 
 
 .Pages ul{
-    width: 400px;
-    margin-left: 120px;
+    width: 600px;
+    margin-left: 80px;
 }
 
 .Pages ul li{
         font-size: large;
         display: inline-block;
-        margin-top: 30px;
-        margin-right: 40px;
+        margin-top: 40px;
+        margin-right: 20px;
         padding-left: 20px;
         list-style: none;
     } 
@@ -49,18 +49,27 @@
     font-weight: 500;
   }
 
+.link-active:hover{
+    color: white;
+    background: #251cd2;
+    border-radius: 10px;
+    padding: 5px;
+}
+
 .Logout button{
+    float: right;
+    font-weight: 500;
     margin-top: 40px;
-    height: 40px;
+    margin-right: 40px;
+    padding: 5px;
     float: right;
     text-transform: uppercase;
     color: white;
     background: #251cd2;
     border-radius: 10px;
-    padding: 0px 10px;
-    font-weight: 600;
-    margin-right: 50px;
-}
+    border: 2px solid #251cd2;
+} 
+
 .Logo{
     margin-left: 80px;
     height: 100px;

@@ -44,6 +44,7 @@
     font-weight: 500;
     cursor: pointer;
     border-radius: 10px;
+    border: 2px solid #251cd2;
 }
 
 h1{

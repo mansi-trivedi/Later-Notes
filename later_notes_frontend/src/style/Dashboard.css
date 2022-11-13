@@ -1,56 +1,74 @@
-    .Dashboard{
-        margin-top: 30px;
-        float: right;
+    .Dashboard {
+      margin-top: 10px;
+      float: right;
+      width: 1220px;
     }
 
-    .button{
-        display: inline;
-        margin-top: 30px;
-        margin-right: 20px;
-        }
-    
-    #textbox {
-        margin-top: 30px;
-        margin-bottom: 20px;
-        height: 300px;
-        width: 1100px;
-        font-weight: 500;
-        box-shadow: 0px 1px 6px  #727171;
+    .button {
+      width: 400px;
+      float: right;
     }
-    
-    button{
+
+    #description {
+      height: 200px;
+      width: 1100px;
+      font-weight: 500;
+    }
+
+    #title {
+      width: 500px;
+      font-weight: 500;
+    }
+
+    .button button {
       border: 3px solid #251cd2;
       background-color: #e7e7e7;
-      margin-top: 30px;
-      margin-left: 50px;
       border-radius: 10px;
       outline: none;
       cursor: pointer;
+      margin-right: 10px;
+      margin-top: 20px;
     }
-    
-    button span{
+
+    .button button span {
       font-size: 20px;
       font-weight: 600;
       padding-left: 20px;
       padding-right: 22px;
-      color:#251cd2;
+      color: #251cd2;
       cursor: pointer;
       border-radius: 10px;
     }
-    
-    button span:hover{
+
+    button span:hover {
       color: #f2f0f0;
       background-color: #251cd2;
       padding-bottom: 5px;
-    } 
+    }
 
-    button img{
+    button img {
       margin-bottom: 3px;
       margin-right: 3px;
     }
-    
-    .DashboardButton{
-    margin: 0px 20px;
-    padding-left: 60px;
-    width: 1100px;
+
+    .input {
+      width: 1105px;
+      padding: 10px;
+      margin-left: 50px;
+    }
+
+    .input label {
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #251cd2;
+      font-size: medium;
+    }
+
+    .NoteContext {
+      width: 1100px;
+    }
+
+    .Notetitle {
+      width: 520px;
+      float: left;
     }

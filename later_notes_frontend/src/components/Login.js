@@ -43,7 +43,7 @@ const Login = () => {
         try{
             if (validateForm(user)) {
                 const response = await axios.post("http://localhost:3001/login", user)
-                if (response.data.accessToken) {
+                if (response.data.token) {
                     localStorage.setItem("user", JSON.stringify(response.data));
                 }
                 alert(response.data.message)

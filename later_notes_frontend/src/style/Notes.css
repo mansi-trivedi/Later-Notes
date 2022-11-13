@@ -1,0 +1,40 @@
+.myNotes{
+    overflow: auto;
+    float: right;
+    margin-top: 8px;
+    width: 1225px;
+    height: 495px;
+}
+
+.myNotesList{
+    padding: 10px;
+    height: 495px;
+    overflow-x: hidden;
+    padding-left: 20px;
+    font-size: medium;
+    overflow-y: auto;
+}
+
+.myNotesList .NoteButton button{
+    text-transform: uppercase;
+    color: white;
+    background: #251cd2;
+    border-radius: 10px;
+    border: 2px solid #251cd2;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.myNotesList .NoteButton .RemoveButton{
+    background: #d21c1c;
+    border: 2px solid #d21c1c;
+}
+
+.NoNotesFound{
+    width: 1100px;
+    margin: auto;
+    margin-top: 20px;
+    box-shadow: 0px 1px 6px  #727171; 
+    text-align: center;
+}

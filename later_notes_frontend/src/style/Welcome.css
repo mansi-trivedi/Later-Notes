@@ -28,10 +28,12 @@
 
 .LoginRegister button{
     margin-top: 10px;
+    margin-right: 10px;
     height: 40px;
     text-transform: uppercase;
     color: white;
     background: #251cd2;
+    border: 2px solid #251cd2;
     border-radius: 10px;
     padding: 0px 10px;
     font-weight: 600;

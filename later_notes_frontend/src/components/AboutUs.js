@@ -1,8 +1,8 @@
 import React from 'react'
 import "../style/AboutUs.css"
-import SideNav from '../navigation/SideNav'
-import Footer from '../footer/Footer'
-import TopNav from '../navigation/TopNav'
+import SideNav from './SideNav'
+import Footer from './Footer'
+import TopNav from './TopNav'
 
 const AboutUs = () => {
   const KnowMeStyle = {
