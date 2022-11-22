@@ -55,7 +55,6 @@ app.post("/register", async (req, res) => {
     let registerUserData = req.body
     const registerUser = new RegisterUser(registerUserData)
     const response = await register(registerUser)
-    console.log(response)
     res.status(200).send({ message: "Registered Successfully" })
   }
   catch (error) {
@@ -202,7 +201,6 @@ app.put("/MyNotes/:id", authToken, async (req, res) => {
     res.status(200).send({ message: "Note updated Successfully" })
   }
   catch (error) {
-    console.log(error)
     res.status(400).send({ error: error.message })
   }
 });
@@ -217,7 +215,6 @@ app.delete("/MyNotes/:id", authToken, async (req, res) => {
     res.status(200).send({ message: "Note deleted Successfully" })
   }
   catch (error) {
-    console.log(error)
     res.status(400).send({ error: error.message })
   }
 });
