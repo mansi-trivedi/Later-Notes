@@ -4,6 +4,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 
+
 export const EditNotes = () => {
 
     const editorRef = useRef(null);

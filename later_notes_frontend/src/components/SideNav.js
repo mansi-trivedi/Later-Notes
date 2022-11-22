@@ -20,7 +20,7 @@ const SideNav = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      if(response.data.data.length != 0){
+      if(response.data.data.length !== 0){
         setProfileImg(response.data.data[0].photo);
       }
     }

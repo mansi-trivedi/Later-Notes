@@ -35,7 +35,7 @@ const EditProfile = () => {
                 Authorization: `Bearer ${token}`,
             },
         })
-        if (response.data.data[0] != undefined) {
+        if (response.data.data[0] !== undefined) {
             setUserDetail(
                 {
                     id: response.data.data[0].id,

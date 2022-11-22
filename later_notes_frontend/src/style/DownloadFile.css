@@ -1,0 +1,44 @@
+.DownloadBody{
+    background-image: url("../icons/background.jpg");
+    width: 1535px;
+    height : 715px;
+    margin-top: 6px;
+    border: 2px solid #f1f1f1;   
+}
+
+.DownloadTask{
+    width: 40%;
+    height: auto;
+    margin: auto;
+    margin-top: 140px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 20px; 
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 1px 6px  #727171;
+}
+
+.downloadQuestion{
+    color: #251cd2;
+    margin-bottom: 10px;
+}
+
+.DownloadBtns button {
+    text-transform: uppercase;
+    color: white;
+    background: #251cd2;
+    border-radius: 10px;
+    border: 2px solid #251cd2;
+    font-size: medium;
+    margin-top: 8px;
+    margin-left: 20px; 
+  }
+
+.DownloadNoteTitle{
+    text-transform: uppercase;
+    margin-left: 20px;
+    font-size: medium;
+    margin-bottom: 10px;
+    font-weight: bold;
+}

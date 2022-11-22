@@ -13,6 +13,7 @@ import Notes from './components/Notes';
 import DeleteNotes from './components/DeleteNotes';
 import { EditNotes } from './components/EditNotes';
 import EditProfile from './components/EditProfile';
+import DownloadFile from './components/DownloadFile';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path='/MyNotes' element={<Notes/>} />
           <Route path="/DeleteNote/:id" element={<DeleteNotes />} />
           <Route path="/EditNote/:id" element={<EditNotes />} />
+          <Route path="/DownloadNote/:id" element={<DownloadFile/>} />
           <Route path='/UserProfile' element={<EditProfile/>} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
