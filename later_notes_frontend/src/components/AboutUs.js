@@ -1,7 +1,6 @@
 import React from 'react'
 import "../style/AboutUs.css"
 import SideNav from './SideNav'
-import Footer from './Footer'
 import TopNav from './TopNav'
 
 const AboutUs = () => {
@@ -34,7 +33,6 @@ const AboutUs = () => {
         <div style={imageStyle}><img src={require('../icons/aboutUs.png')} alt="AboutUS" height="300" width="400"/></div>  
           </div>
       </div>
-      <Footer/>
     </>
   )
 }

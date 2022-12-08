@@ -11,6 +11,8 @@ const executeStoredProcedure = require("./Database/executeStoredProcedure")
 const RegisterUser = require("./Model/user")
 const RegisterUserNotes = require("./Model/note")
 const RegisterUserDetails = require("./Model/userDetails")
+const TrackChangesSuggestion = require("./Model/TrackChangesSuggesstions")
+const Comments = require("./Model/Comments")
 
 const constant = require("./Constants/constant")
 
@@ -25,6 +27,15 @@ const updateNoteId = require("./services/updateNote")
 const addUserDetails = require("./services/addUserDetails")
 const getUserDetails = require("./services/getUserDetails")
 const updateUserDetail = require("./services/updateUserDetails")
+const getSuggestion = require("./services/getSuggestion")
+const addSuggestion = require("./services/addSuggestion")
+const updateSuggestion = require("./services/updateSuggestion")
+const getComments = require("./services/getComment")
+const addComments = require("./services/addComment")
+const update = require("./services/updateComment");
+const updateComments = require("./services/updateComment");
+const deleteComment = require("./services/deleteComment")
+const deleteCommentThread = require("./services/deleteCommentThread")
 
 
 require("dotenv").config();
@@ -218,6 +229,117 @@ app.delete("/MyNotes/:id", authToken, async (req, res) => {
     res.status(400).send({ error: error.message })
   }
 });
+
+app.get("/suggestion/:id", async (req, res) => {
+  try {
+    const data = {
+      suggestionId : req.params.id
+    }
+    const response = await getSuggestion(data)
+    res.status(200).send({ data: response.recordset })
+  }
+  catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message })
+  }
+})
+
+app.post("/suggestion", async (req, res) => {
+  try {
+    const suggestion = {
+      ...req.body,
+      createdAt: new Date()
+    }
+    const response = await addSuggestion(suggestion)
+    res.status(200).send({data: response })
+  }
+  catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message })
+  }
+})
+
+app.put("/suggestion/:id", async (req, res) => {
+  try {
+    let suggestion = {}
+    if(req.body.hasComments === undefined){
+        suggestion.id = req.params.id,
+        suggestion.state= req.body.state,
+        suggestion.hasComments= 'false' 
+    }
+    else{
+      suggestion.id= req.params.id,
+      suggestion.state = null,
+      suggestion.hasComments= req.body.hasComments
+    }
+    const response = await updateSuggestion(suggestion)
+    res.status(200).send()
+  }
+  catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message })
+  }
+});
+
+app.get("/comment/:threadId", async (req, res) => {
+  try {
+    const comment = {
+      threadId: req.params.threadId,
+    }
+    const response = await getComments(comment)
+    res.status(200).send({ data: response.recordset })
+  }
+  catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message })
+  }
+})
+
+app.post("/comment", async (req, res) => {
+  try {
+    const comment = {
+      ...req.body,
+      createdAt: new Date()
+    }
+    const response = await addComments(comment)
+    res.status(200).send({data: response })
+  }
+  catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message })
+  }
+})
+
+app.put("/comment/:commentId/:threadId", async (req, res) => {
+  try {
+    const comment = {
+      threadId: req.params.threadId,
+      commentId: req.params.commentId,
+      ...req.body
+    }
+    const response = await updateComments(comment)
+    res.status(200).send()
+  }
+  catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message })
+  }
+});
+
+app.delete("/comment/:commentId/:threadId", async (req, res) => {
+  try {
+    const comment = {
+      threadId: req.params.threadId,
+      commentId: req.params.commentId,
+    }
+    const response = await deleteComment(comment)
+    res.status(200).send()
+  }
+  catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message })
+  }
+})
 
 app.listen(port, () => {
   console.log(`Server is running at port no ${port}`);

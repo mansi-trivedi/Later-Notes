@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react"
 import "../style/Notes.css"
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
-import Footer from "./Footer";
 import axios from "axios"
 import { Link } from "react-router-dom";
 import Accordion from 'react-bootstrap/Accordion';
+
 
 const Notes = () => {
 
@@ -78,32 +78,9 @@ const Notes = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+            
         </>
     )
 }
 
 export default Notes;
-
-
-/*{noteList.map((note) =>
-                                    <div key={note.id} className="col-sm-6">
-                                        <div className="card">
-                                            <div className="card-body">
-                                                <h5 className="card-title">{note.title}</h5>
-                                                <div className="card-text" dangerouslySetInnerHTML={{ __html: note.desc }} />
-                                                <div className="NoteButton">
-                                                    <Link to={`/EditNote/${note.id}`}>
-                                                        <button className="EditButton">edit</button>
-                                                    </Link>
-                                                    <Link to={`/DownloadNote/${note.id}`}>
-                                                        <button className="DownloadNote">Download</button>
-                                                    </Link>
-                                                    <Link to={`/DeleteNote/${note.id}`}>
-                                                        <button className="RemoveButton" >Remove</button>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}*/

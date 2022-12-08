@@ -1,6 +1,5 @@
 import React from 'react'
 import "../style/Home.css"
-import Footer from './Footer'
 import TopNav from './TopNav'
 import SideNav from './SideNav';
 
@@ -17,7 +16,6 @@ const Home = () => {
           }
         </div>
       </div>
-      <Footer/>
     </>
   )
 }

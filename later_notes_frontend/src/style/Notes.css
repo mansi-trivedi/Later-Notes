@@ -3,12 +3,12 @@
     float: right;
     margin-top: 8px;
     width: 1225px;
-    height: 495px;
+    height: 590px;
 }
 
 .myNotesList{
    padding: 10px; 
-    height: 495px;
+    height: 590px;
     overflow-x: hidden;
     padding-left: 20px;
     font-size: medium;
