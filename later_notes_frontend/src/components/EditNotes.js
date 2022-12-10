@@ -55,9 +55,6 @@ export class TrackChanges extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-		window.removeEventListener( 'resize', this.refreshDisplayMode );
-	}
 
   async updateHandler(editor) {
     try {
@@ -224,7 +221,7 @@ class TrackChangesIntegration {
         console.log('Get suggestion', suggestionId);
 
         return axios({
-            url: `http://localhost:3001/suggestion/${suggestionId}`,    //Get Suggestion
+            url: `http://localhost:3001/suggestion/${suggestionId}`,    //function for Get Suggestion
             method: "GET",
           })
 					.then( res => {
@@ -239,7 +236,7 @@ class TrackChangesIntegration {
 					} );
       },
 
-      addSuggestion: suggestionData => {
+      addSuggestion: suggestionData => {  //function for add function
 
         console.log( 'Suggestion added', suggestionData );
 
@@ -279,7 +276,7 @@ class TrackChangesIntegration {
 					data.state = suggestionData.state ;
 				}
 
-				return axios({                         //Update Suggestion
+				return axios({                         //function for Update Suggestion
            method: "PUT",
            url: `http://localhost:3001/suggestion/${id}`,
            data: suggestionData
@@ -289,7 +286,7 @@ class TrackChangesIntegration {
     };
 
     commentsRepositoryPlugin.adapter = {
-      getCommentThread: ({ threadId }) => {
+      getCommentThread: ({ threadId }) => {  //function for get comment
 
         console.log('Get comment thread', threadId);
 
@@ -304,23 +301,12 @@ class TrackChangesIntegration {
               { commentId: res.data.data[0].commentId, content: res.data.data[0].content, authorId: res.data.data[0].userId, createdAt: new Date(res.data.data[0].createdAt)}
             ]
           return comment
-          // const thread = { threadId };
-					// 	thread.comments = res.data.data.map( c => {
-          //     console.log(c)
-					// 		return{
-          //       threadId: c.threadId,
-					// 			commentId: c.commentId,
-					// 			authorId: c.userId,
-					// 			content: c.content,
-					// 			createdAt: new Date( c.createdAt )
-					// 		};
-          //   })
         }).catch((err) => {
           console.log(err)
         })
 
       },
-      addComment: data => {
+      addComment: data => {  //function for add comments
 
         console.log('Comment added', data);
 
@@ -344,7 +330,7 @@ class TrackChangesIntegration {
         })
       },
 
-      updateComment: data => {
+      updateComment: data => {    //function for update comments
 
         console.log('Comment updated', data);
 
@@ -362,7 +348,7 @@ class TrackChangesIntegration {
         })
       },
       
-      removeComment: data => {
+      removeComment: data => { //function for remove comments
         console.log('Comment removed', data);
 
         return axios({

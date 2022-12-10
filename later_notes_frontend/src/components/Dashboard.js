@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import SideNav from './SideNav';
 import TopNav from './TopNav';
 import axios from "axios"
@@ -24,8 +24,6 @@ const Dashboard = () => {
 
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
-
-    const editorRef = useRef(null);
 
     const token = JSON.parse(localStorage.getItem('user')).token
 
@@ -247,17 +245,6 @@ class TrackChangesIntegration {
               { commentId: res.data.data[0].commentId, content: res.data.data[0].content, authorId: res.data.data[0].userId, createdAt: new Date(res.data.data[0].createdAt)}
             ]
           return comment
-          // const thread = { threadId };
-					// 	thread.comments = res.data.data.map( c => {
-          //     console.log(c)
-					// 		return{
-          //       threadId: c.threadId,
-					// 			commentId: c.commentId,
-					// 			authorId: c.userId,
-					// 			content: c.content,
-					// 			createdAt: new Date( c.createdAt )
-					// 		};
-          //   })
         }).catch((err) => {
           console.log(err)
         })

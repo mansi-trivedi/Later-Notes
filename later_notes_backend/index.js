@@ -11,8 +11,6 @@ const executeStoredProcedure = require("./Database/executeStoredProcedure")
 const RegisterUser = require("./Model/user")
 const RegisterUserNotes = require("./Model/note")
 const RegisterUserDetails = require("./Model/userDetails")
-const TrackChangesSuggestion = require("./Model/TrackChangesSuggesstions")
-const Comments = require("./Model/Comments")
 
 const constant = require("./Constants/constant")
 
