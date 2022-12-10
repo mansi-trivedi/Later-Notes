@@ -9,7 +9,7 @@ const appData = {
   users: [
     {
       id: 'user-1',
-      name: JSON.parse(localStorage.getItem('user')).user.username
+      name: "Mansi Trivedi"
     },
     {
       id: 'user-2',
