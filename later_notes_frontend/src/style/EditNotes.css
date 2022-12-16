@@ -75,13 +75,11 @@ button img {
 }
 
 .container .ck.ck-editor {
-  width: 100%;
-  max-width: 1000px;
+  width: 1300px;
 } 
 
 .container .ck-editor__editable {
-  width: 100%;
-  max-width: 1000px !important;
+  width: 1300px !important;
 } 
 
 .sidebar {

@@ -9,11 +9,7 @@ const appData = {
   users: [
     {
       id: 'user-1',
-      name: "Mansi Trivedi"
-    },
-    {
-      id: 'user-2',
-      name: 'Rani Gupta'
+      name: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).user.username : "Demo"
     }
   ]
 };
@@ -31,10 +27,6 @@ export class TrackChanges extends React.Component {
     this.updateHandler = this.updateHandler.bind(this);
 
     this.sidebarElementRef = React.createRef();
-
-    this.refreshDisplayMode = this.refreshDisplayMode.bind( this );
-
-		window.addEventListener( 'resize', this.refreshDisplayMode );
   }
 
   async componentDidMount() {
@@ -46,8 +38,7 @@ export class TrackChanges extends React.Component {
           Authorization: `Bearer ${this.token}`,
         },
       })
-      localStorage.setItem("note", response.data.data[0].desc)
-      this.setState({ editNote: response.data.data[0] })
+      this.setState({ editNote: response.data.data[0]})
     }
     catch (error) {
       console.log(error)
@@ -157,14 +148,14 @@ export class TrackChanges extends React.Component {
                         },
                       },
 
-                      sidebar: {
-                        container: this.sidebarElementRef.current
-                      },
+                      // sidebar: {
+                      //   container: this.sidebarElementRef.current
+                      // },
                       licenseKey: '8IaxBmSPg7BqjT7H84CPrzQpNcaip4P9ScPSA2mdBv7DrFvF4ml+UXtbYg=='
                     }}
                   />
                 </div>
-                <div ref={this.sidebarElementRef} className="sidebar"></div>
+                {/* <div ref={this.sidebarElementRef} className="sidebar"></div> */}
               </div>
             </div>
           </div>
@@ -173,7 +164,7 @@ export class TrackChanges extends React.Component {
     )
   }
 
-  refreshDisplayMode() {
+  /*refreshDisplayMode() {
 		if ( !this.state.editor ) {
 			return;
 		}
@@ -195,7 +186,7 @@ export class TrackChanges extends React.Component {
 			sidebarElement.classList.remove( 'hidden', 'narrow' );
 			annotationsUIs.switchTo( 'wideSidebar' );
 		}
-	}
+	}*/
 }
 
 

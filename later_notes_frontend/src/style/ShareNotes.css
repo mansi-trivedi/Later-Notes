@@ -1,0 +1,45 @@
+.ShareBody{
+    background-image: url("../icons/background.jpg");
+    width: 1535px;
+    height : 715px;
+    margin-top: 6px;
+    border: 2px solid #f1f1f1;   
+}
+
+.ShareTask {
+    width: 30%;
+    height: auto;
+    margin: auto;
+    margin-top: 180px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 20px; 
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 1px 6px  #727171;
+}
+
+.ShareWith{
+    background-color: white;
+    margin-top: 20px;
+}
+
+.ShareQuestion{
+    color: #251cd2;
+}
+
+.ShareButton{
+    margin-top: 15px;
+}
+
+.ShareButton .share{
+    text-transform: uppercase;
+    padding: 5px 10px;
+    color: white; 
+    background: #251cd2;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid #251cd2;
+}
+

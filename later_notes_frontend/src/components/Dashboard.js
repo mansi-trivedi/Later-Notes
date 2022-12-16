@@ -94,7 +94,7 @@ const Dashboard = () => {
                                 onChange={handleChange}
                                 editor={Editor}
                                 config={{
-                                    extraPlugins: [TrackChangesIntegration],
+                                    // extraPlugins: [TrackChangesIntegration],
                                     exportPdf: {
                                         stylesheets: ['EDITOR_STYLES'],
                                         fileName: 'demo.pdf',
@@ -143,168 +143,168 @@ const Dashboard = () => {
 
 export default Dashboard
 
-class TrackChangesIntegration {
-  constructor(editor) {
-    this.editor = editor;
-  }
+// class TrackChangesIntegration {
+//   constructor(editor) {
+//     this.editor = editor;
+//   }
 
-  init() {
-    const usersPlugin = this.editor.plugins.get('Users');
-    const trackChangesPlugin = this.editor.plugins.get('TrackChanges');
-    const commentsRepositoryPlugin = this.editor.plugins.get('CommentsRepository');
+//   init() {
+//     const usersPlugin = this.editor.plugins.get('Users');
+//     const trackChangesPlugin = this.editor.plugins.get('TrackChanges');
+//     const commentsRepositoryPlugin = this.editor.plugins.get('CommentsRepository');
 
-    for (const user of appData.users) {
-      usersPlugin.addUser(user);
-    }
+//     for (const user of appData.users) {
+//       usersPlugin.addUser(user);
+//     }
 
-    usersPlugin.defineMe( 'user-1' );
+//     usersPlugin.defineMe( 'user-1' );
 
-    trackChangesPlugin.adapter = {
-      getSuggestion: suggestionId => {
+//     trackChangesPlugin.adapter = {
+//       getSuggestion: suggestionId => {
 
-        console.log('Get suggestion', suggestionId);
+//         console.log('Get suggestion', suggestionId);
 
-        return axios({
-            url: `http://localhost:3001/suggestion/${suggestionId}`,    //Get Suggestion
-            method: "GET",
-          })
-					.then( res => {
-            let suggestion = {}
-            suggestion.id = res.data.data[0].id
-            suggestion.type = res.data.data[0].type
-						suggestion.createdAt = new Date(res.data.data[0].createdAt);
-            suggestion.authorId = res.data.data[0].userId;
-            suggestion.hasComments = !!parseInt( res.data.data[0].hasComments );
-            console.log(suggestion)
-						  return suggestion; 
-					} );
-      },
+//         return axios({
+//             url: `http://localhost:3001/suggestion/${suggestionId}`,    //Get Suggestion
+//             method: "GET",
+//           })
+// 					.then( res => {
+//             let suggestion = {}
+//             suggestion.id = res.data.data[0].id
+//             suggestion.type = res.data.data[0].type
+// 						suggestion.createdAt = new Date(res.data.data[0].createdAt);
+//             suggestion.authorId = res.data.data[0].userId;
+//             suggestion.hasComments = !!parseInt( res.data.data[0].hasComments );
+//             console.log(suggestion)
+// 						  return suggestion; 
+// 					} );
+//       },
 
-      addSuggestion: suggestionData => {
+//       addSuggestion: suggestionData => {
 
-        console.log( 'Suggestion added', suggestionData );
+//         console.log( 'Suggestion added', suggestionData );
 
-        let data = {}
-        data.id = suggestionData.id
-        data.type = suggestionData.type
-        data.data = JSON.stringify( suggestionData.data )
-        data.hasComments = suggestionData.hasComments
-        data.userId = 'user-1'
+//         let data = {}
+//         data.id = suggestionData.id
+//         data.type = suggestionData.type
+//         data.data = JSON.stringify( suggestionData.data )
+//         data.hasComments = suggestionData.hasComments
+//         data.userId = 'user-1'
 
-				if ( suggestionData.originalSuggestionId ) {
-					data.originalSuggestionId = suggestionData.originalSuggestionId 
-				}
+// 				if ( suggestionData.originalSuggestionId ) {
+// 					data.originalSuggestionId = suggestionData.originalSuggestionId 
+// 				}
         
-				return axios({                   
-          method: "POST",
-          url: "http://localhost:3001/suggestion",
-          data: data
-        })
-					.then( response => {
-						return {
-							createdAt: new Date()
-						};
-					} );
-			},
+// 				return axios({                   
+//           method: "POST",
+//           url: "http://localhost:3001/suggestion",
+//           data: data
+//         })
+// 					.then( response => {
+// 						return {
+// 							createdAt: new Date()
+// 						};
+// 					} );
+// 			},
 
-      updateSuggestion: (id, suggestionData) => {
-        console.log( 'Suggestion updated', id, suggestionData );
+//       updateSuggestion: (id, suggestionData) => {
+//         console.log( 'Suggestion updated', id, suggestionData );
 
-        let data = {}
+//         let data = {}
 
-				if ( suggestionData.hasComments !== undefined ) {
-					data.hasComments = suggestionData.hasComments ;
-				}
+// 				if ( suggestionData.hasComments !== undefined ) {
+// 					data.hasComments = suggestionData.hasComments ;
+// 				}
 
-				if ( suggestionData.state !== undefined ) {
-					data.state = suggestionData.state ;
-				}
+// 				if ( suggestionData.state !== undefined ) {
+// 					data.state = suggestionData.state ;
+// 				}
 
-				return axios({                         //Update Suggestion
-           method: "PUT",
-           url: `http://localhost:3001/suggestion/${id}`,
-           data: suggestionData
-        }).then( response => console.log(response))
-        .catch(error => console.log(error))
-			}
-    };
+// 				return axios({                         //Update Suggestion
+//            method: "PUT",
+//            url: `http://localhost:3001/suggestion/${id}`,
+//            data: suggestionData
+//         }).then( response => console.log(response))
+//         .catch(error => console.log(error))
+// 			}
+//     };
 
-    commentsRepositoryPlugin.adapter = {
-      getCommentThread: ({ threadId }) => {
+//     commentsRepositoryPlugin.adapter = {
+//       getCommentThread: ({ threadId }) => {
 
-        console.log('Get comment thread', threadId);
+//         console.log('Get comment thread', threadId);
 
-        return axios({
-          url: `http://localhost:3001/comment/${threadId}`,
-          method: "GET"
-        })
-        .then((res) => {
-          let comment = {}
-          comment.threadId = threadId
-          comment.comments = [
-              { commentId: res.data.data[0].commentId, content: res.data.data[0].content, authorId: res.data.data[0].userId, createdAt: new Date(res.data.data[0].createdAt)}
-            ]
-          return comment
-        }).catch((err) => {
-          console.log(err)
-        })
+//         return axios({
+//           url: `http://localhost:3001/comment/${threadId}`,
+//           method: "GET"
+//         })
+//         .then((res) => {
+//           let comment = {}
+//           comment.threadId = threadId
+//           comment.comments = [
+//               { commentId: res.data.data[0].commentId, content: res.data.data[0].content, authorId: res.data.data[0].userId, createdAt: new Date(res.data.data[0].createdAt)}
+//             ]
+//           return comment
+//         }).catch((err) => {
+//           console.log(err)
+//         })
 
-      },
-      addComment: data => {
+//       },
+//       addComment: data => {
 
-        console.log('Comment added', data);
+//         console.log('Comment added', data);
 
-        let commentData = {}
-        commentData.threadId = data.threadId
-        commentData.commentId = data.commentId
-        commentData.content = data.content
-        commentData.userId = 'user-1'
+//         let commentData = {}
+//         commentData.threadId = data.threadId
+//         commentData.commentId = data.commentId
+//         commentData.content = data.content
+//         commentData.userId = 'user-1'
 
-        return axios({
-          method: "POST",
-          url: "http://localhost:3001/comment",
-          data: commentData
-        })
-        .then( response => {
-          return {
-            createdAt: new Date()
-          };
-        } ).catch((err) => {
-          console.log(err)
-        })
-      },
+//         return axios({
+//           method: "POST",
+//           url: "http://localhost:3001/comment",
+//           data: commentData
+//         })
+//         .then( response => {
+//           return {
+//             createdAt: new Date()
+//           };
+//         } ).catch((err) => {
+//           console.log(err)
+//         })
+//       },
 
-      updateComment: data => {
+//       updateComment: data => {
 
-        console.log('Comment updated', data);
+//         console.log('Comment updated', data);
 
-        let commentData = {}
-        commentData.content = data.content
+//         let commentData = {}
+//         commentData.content = data.content
 
-        return axios({
-          method: "PUT",
-          url: `http://localhost:3001/comment/${data.commentId}/${data.threadId}`,
-          data: commentData
-        }).then((res) => {
-          console.log(res)
-        }).catch((err) => {
-          console.log(err)
-        })
-      },
+//         return axios({
+//           method: "PUT",
+//           url: `http://localhost:3001/comment/${data.commentId}/${data.threadId}`,
+//           data: commentData
+//         }).then((res) => {
+//           console.log(res)
+//         }).catch((err) => {
+//           console.log(err)
+//         })
+//       },
       
-      removeComment: data => {
-        console.log('Comment removed', data);
+//       removeComment: data => {
+//         console.log('Comment removed', data);
 
-        return axios({
-          method: "DELETE",
-          url: `http://localhost:3001/comment/${data.commentId}/${data.threadId}`,
-        }).then((res) => {
-          console.log(res)
-        }).catch((err) => {
-          console.log(err)
-        })
+//         return axios({
+//           method: "DELETE",
+//           url: `http://localhost:3001/comment/${data.commentId}/${data.threadId}`,
+//         }).then((res) => {
+//           console.log(res)
+//         }).catch((err) => {
+//           console.log(err)
+//         })
         
-      },
-    };
-  }
-}
+//       },
+//     };
+//   }
+// }

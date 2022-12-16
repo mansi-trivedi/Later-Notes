@@ -65,6 +65,9 @@ const Notes = () => {
                                                     <Link to={`/DeleteNote/${note.id}`}>
                                                         <button className="RemoveButton" >Remove</button>
                                                     </Link>
+                                                    <Link to={`/ShareNote/${note.id}`}>
+                                                        <button className="ShareButton" >Share</button> 
+                                                    </Link>
                                                 </div>
                                             </Accordion.Header>
                                             <Accordion.Body dangerouslySetInnerHTML={{ __html: note.desc }}/>
