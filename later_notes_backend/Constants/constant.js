@@ -1,7 +1,7 @@
 const register = 'spRegister'
 const login = 'spLogin'
 const forgotPassword = 'spForgotPassword'
-const users = 'users'
+const shareUsers = 'shareUsers'
 const getUserDetail = 'getUserDetail'
 const addUserDetail = 'addUserDetail'
 const addNotes = 'addNotes'
@@ -19,8 +19,9 @@ const updateComments = 'updateComments'
 const deleteComments = 'deleteComments'
 const deleteCommentThread = 'deleteCommentThread'
 const shareNote = 'shareNote'
+const noteOwner = 'noteOwner'
 
 module.exports = {
-    register, login, forgotPassword, addNotes, users, allNotes, noteId, deleteById, updateById, getUserDetail, addUserDetail, updateUserDetail, getSuggestion, 
-    addSuggestion, updateSuggestion, getComments, addComments, updateComments, deleteComments, deleteCommentThread, shareNote
+    register, login, forgotPassword, addNotes, shareUsers, allNotes, noteId, deleteById, updateById, getUserDetail, addUserDetail, updateUserDetail, getSuggestion, 
+    addSuggestion, updateSuggestion, getComments, addComments, updateComments, deleteComments, deleteCommentThread, shareNote, noteOwner
 }

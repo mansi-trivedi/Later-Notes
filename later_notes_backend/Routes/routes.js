@@ -4,9 +4,9 @@ const path = require("path");
 
 const authToken = require("../middleware/authenticateToken")
 
-const { Register, Login, ForgotPassword, getUser } = require("../Controller/user.js");
+const { Register, Login, ForgotPassword } = require("../Controller/user.js");
 const { getUserDetail, addUserDetail, updateUserDetail } = require("../Controller/userDetails")
-const { addNote, getAllNotes, getNoteById, updateNoteById, deleteNoteByNote, shareNotes } = require("../Controller/notes")
+const { addNote, getAllNotes, getNoteById, updateNoteById, deleteNoteByNote, shareNotes, shareUser } = require("../Controller/notes")
 const { addSuggestions, getSuggestions, updateSuggestions } = require("../Controller/suggestions")
 const { addComment, getComment, updateComment, deleteComment } = require("../Controller/comments")
 
@@ -28,7 +28,6 @@ var upload = multer({
 router.post('/register', Register);
 router.post('/login', Login);
 router.post('/forgotpassword', ForgotPassword);
-router.get("/users", authToken, getUser)
 
 router.get('/userDetails', authToken, getUserDetail)
 router.post('/userDetails', upload.single('photo'), authToken, addUserDetail)
@@ -40,6 +39,7 @@ router.get("/MyNotes/:id", authToken, getNoteById)
 router.put("/MyNotes/:id", authToken, updateNoteById)
 router.delete("/MyNotes/:id", authToken, deleteNoteByNote)
 router.post("/sharedNote/:id", authToken, shareNotes)
+router.get("/users", authToken, shareUser)
 
 router.get("/suggestion/:id", getSuggestions)
 router.post("/suggestion", addSuggestions)

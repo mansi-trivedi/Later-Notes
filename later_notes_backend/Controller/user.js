@@ -52,18 +52,4 @@ const ForgotPassword = async (req, res) => {
   }
 }
 
-const getUser = async (req, res) => {
-  try {
-    const owner = {
-      ownerId: req.userId
-    }
-    const spInput = await spParameter(owner)
-    const response = await executeStoredProcedure(constant.users, spInput)
-    res.status(200).send({ data: response.recordset })
-  }
-  catch (error) {
-    console.log(error)
-  }
-}
-
-module.exports = { Register, Login, ForgotPassword, getUser }
+module.exports = { Register, Login, ForgotPassword }
