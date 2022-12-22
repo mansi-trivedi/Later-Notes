@@ -11,6 +11,8 @@ const Notes = () => {
 
     const [noteList, setNoteList] = useState([]);
     const token = JSON.parse(localStorage.getItem('user')).token
+    const UserId = JSON.parse(localStorage.getItem('user')).user.id
+
 
     const callFn = async () => {
         try {
@@ -48,32 +50,46 @@ const Notes = () => {
                         {noteList && (
                             <>
                                 {noteList.map((note) =>
-                                <div className="accordionList" key={note.id}> 
-                                    <Accordion>
-                                        <Accordion.Item eventKey="0">
-                                            <Accordion.Header>
-                                                <div className="NotesTitle">
-                                                {note.title}
-                                                </div>
-                                                <div className="NoteButton">
-                                                    <Link to={`/EditNote/${note.id}`}>
-                                                        <button className="EditButton">edit</button>
-                                                    </Link>
-                                                    <Link to={`/DownloadNote/${note.id}`}>
-                                                        <button className="DownloadNote">Download</button>
-                                                    </Link>
-                                                    <Link to={`/DeleteNote/${note.id}`}>
-                                                        <button className="RemoveButton" >Remove</button>
-                                                    </Link>
-                                                    <Link to={`/ShareNote/${note.id}`}>
-                                                        <button className="ShareButton" >Share</button> 
-                                                    </Link>
-                                                </div>
-                                            </Accordion.Header>
-                                            <Accordion.Body dangerouslySetInnerHTML={{ __html: note.desc }}/>
-                                        </Accordion.Item>
-                                    </Accordion>
-                                </div>
+                                    <div className="accordionList" key={note.id}>
+                                        <Accordion>
+                                            <Accordion.Item eventKey="0">
+                                                <Accordion.Header>
+                                                    <div className="NotesTitle">
+                                                        {note.title}
+                                                    </div>
+                                                    {UserId === note.ownerId ? (
+                                                        <div className="NoteButton">
+                                                        <Link to={`/EditNote/${note.id}`}>
+                                                            <button className="EditButton">edit</button>
+                                                        </Link>
+                                                        <Link to={`/DownloadNote/${note.id}`}>
+                                                            <button className="DownloadNote">Download</button>
+                                                        </Link>
+                                                        <Link to={`/DeleteNote/${note.id}`}>
+                                                            <button className="RemoveButton" >Remove</button>
+                                                        </Link>
+                                                        <Link to={`/ShareNote/${note.id}`}>
+                                                            <button className="ShareButton" >Share</button>
+                                                        </Link>
+                                                    </div>
+                                                    ) : (
+                                                        <div className="SharedNoteButton">
+                                                        <Link to={`/EditNote/${note.id}`}>
+                                                            <button className="EditButton">edit</button>
+                                                        </Link>
+                                                        <Link to={`/DownloadNote/${note.id}`}>
+                                                            <button className="DownloadNote">Download</button>
+                                                        </Link>
+                                                        <Link to={`/ShareNote/${note.id}`}>
+                                                            <button className="ShareButton" >Share</button>
+                                                        </Link> 
+                                                    </div>
+                                                    )} 
+                                                </Accordion.Header>
+                                                <Accordion.Body dangerouslySetInnerHTML={{ __html: note.desc }} />
+                                            </Accordion.Item>
+                                        </Accordion>
+                                    </div>
                                 )}
 
                             </>
@@ -81,7 +97,7 @@ const Notes = () => {
                     </div>
                 </div>
             </div>
-            
+
         </>
     )
 }

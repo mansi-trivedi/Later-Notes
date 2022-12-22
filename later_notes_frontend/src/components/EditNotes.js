@@ -1,7 +1,7 @@
 import React from 'react';
 import "../style/EditNotes.css"
 import axios from "axios";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useLocation, useParams, matchPath } from "react-router";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
@@ -23,6 +23,8 @@ export class TrackChanges extends React.Component {
       editorData: ""
     }
     this.token = JSON.parse(localStorage.getItem('user')).token
+    // this.pathname = this.props.path
+    // this.isAdminPath = matchPath(`/EditNote/${this.props.params}`, this.pathname);
     this.handleChange = this.handleChange.bind(this);
     this.updateHandler = this.updateHandler.bind(this);
 
@@ -80,6 +82,7 @@ export class TrackChanges extends React.Component {
     return (
       <>
         <div className="editNotes">
+          {/* {this.isAdminPath? console.log('already open'): console.log('not open')} */}
           <div className="editinput">
             <h2 className="editQuestion">
               Edit Note
@@ -359,8 +362,9 @@ class TrackChangesIntegration {
 export const EditNotes = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { pathname } = useLocation();
   return (
-    <TrackChanges navigate={navigate} params={id} />
+    <TrackChanges navigate={navigate} params={id} path={pathname} />
   )
 }
 
