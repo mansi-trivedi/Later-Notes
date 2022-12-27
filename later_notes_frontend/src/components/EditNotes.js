@@ -1,7 +1,7 @@
 import React from 'react';
 import "../style/EditNotes.css"
 import axios from "axios";
-import { useNavigate, useLocation, useParams, matchPath } from "react-router";
+import { useNavigate, useLocation, useParams } from "react-router";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
@@ -20,15 +20,14 @@ export class TrackChanges extends React.Component {
     super(props)
     this.state = {
       editNote: {},
-      editorData: ""
-    }
+      editorData: "",
+    };
     this.token = JSON.parse(localStorage.getItem('user')).token
-    // this.pathname = this.props.path
-    // this.isAdminPath = matchPath(`/EditNote/${this.props.params}`, this.pathname);
+    this.user = JSON.parse(localStorage.getItem('user')).user.username
     this.handleChange = this.handleChange.bind(this);
     this.updateHandler = this.updateHandler.bind(this);
-
     this.sidebarElementRef = React.createRef();
+    this.room = this.props.params
   }
 
   async componentDidMount() {
@@ -40,14 +39,18 @@ export class TrackChanges extends React.Component {
           Authorization: `Bearer ${this.token}`,
         },
       })
-      this.setState({ editNote: response.data.data[0]})
+      this.setState({ editNote: response.data.data[0] })
+      this.props.socket.emit("joinRoom", this.room )
+      this.props.socket.on("receiveMessage", (data) => {
+        console.log(data)
+        alert(data)
+      })
     }
     catch (error) {
       console.log(error)
       alert(error.response.data.error);
     }
   }
-
 
   async updateHandler(editor) {
     try {
@@ -74,15 +77,17 @@ export class TrackChanges extends React.Component {
   }
 
   handleChange(e, editor) {
-    let data = editor.getData();
-    this.setState({ editorData: data })
+    if (this.state.editNote.desc !== editor.getData()) {
+      let data = editor.getData();
+      this.setState({ editorData: data })
+      this.props.socket.emit("updating", { message: `${this.user} is updating the note ${this.props.params}`, room: this.room })
+    }
   }
 
   render() {
     return (
       <>
         <div className="editNotes">
-          {/* {this.isAdminPath? console.log('already open'): console.log('not open')} */}
           <div className="editinput">
             <h2 className="editQuestion">
               Edit Note
@@ -107,7 +112,7 @@ export class TrackChanges extends React.Component {
               <div className="container">
                 <div className='editor'>
                   <CKEditor
-                    data={this.state.editNote.desc} 
+                    data={this.state.editNote.desc}
                     onChange={this.handleChange}
                     editor={Editor}
                     config={{
@@ -150,15 +155,10 @@ export class TrackChanges extends React.Component {
                           orientation: 'portrait'
                         },
                       },
-
-                      // sidebar: {
-                      //   container: this.sidebarElementRef.current
-                      // },
                       licenseKey: '8IaxBmSPg7BqjT7H84CPrzQpNcaip4P9ScPSA2mdBv7DrFvF4ml+UXtbYg=='
                     }}
                   />
                 </div>
-                {/* <div ref={this.sidebarElementRef} className="sidebar"></div> */}
               </div>
             </div>
           </div>
@@ -166,30 +166,6 @@ export class TrackChanges extends React.Component {
       </>
     )
   }
-
-  /*refreshDisplayMode() {
-		if ( !this.state.editor ) {
-			return;
-		}
-
-		const annotationsUIs = this.state.editor.plugins.get( 'AnnotationsUIs' );
-		const sidebarElement = this.sidebarElementRef.current;
-
-		if ( window.innerWidth < 1070 ) {
-			sidebarElement.classList.remove( 'narrow' );
-			sidebarElement.classList.add( 'hidden' );
-			annotationsUIs.switchTo( 'inline' );
-		}
-		else if ( window.innerWidth < 1300 ) {
-			sidebarElement.classList.remove( 'hidden' );
-			sidebarElement.classList.add( 'narrow' );
-			annotationsUIs.switchTo( 'narrowSidebar' );
-		}
-		else {
-			sidebarElement.classList.remove( 'hidden', 'narrow' );
-			annotationsUIs.switchTo( 'wideSidebar' );
-		}
-	}*/
 }
 
 
@@ -207,7 +183,7 @@ class TrackChangesIntegration {
       usersPlugin.addUser(user);
     }
 
-    usersPlugin.defineMe( 'user-1' );
+    usersPlugin.defineMe('user-1');
 
     trackChangesPlugin.adapter = {
       getSuggestion: suggestionId => {
@@ -215,68 +191,68 @@ class TrackChangesIntegration {
         console.log('Get suggestion', suggestionId);
 
         return axios({
-            url: `http://localhost:3001/suggestion/${suggestionId}`,    //function for Get Suggestion
-            method: "GET",
-          })
-					.then( res => {
+          url: `http://localhost:3001/suggestion/${suggestionId}`,    //function for Get Suggestion
+          method: "GET",
+        })
+          .then(res => {
             let suggestion = {}
             suggestion.id = res.data.data[0].id
             suggestion.type = res.data.data[0].type
-						suggestion.createdAt = new Date(res.data.data[0].createdAt);
+            suggestion.createdAt = new Date(res.data.data[0].createdAt);
             suggestion.authorId = res.data.data[0].userId;
-            suggestion.hasComments = !!parseInt( res.data.data[0].hasComments );
+            suggestion.hasComments = !!parseInt(res.data.data[0].hasComments);
             console.log(suggestion)
-						  return suggestion; 
-					} );
+            return suggestion;
+          });
       },
 
       addSuggestion: suggestionData => {  //function for add function
 
-        console.log( 'Suggestion added', suggestionData );
+        console.log('Suggestion added', suggestionData);
 
         let data = {}
         data.id = suggestionData.id
         data.type = suggestionData.type
-        data.data = JSON.stringify( suggestionData.data )
+        data.data = JSON.stringify(suggestionData.data)
         data.hasComments = suggestionData.hasComments
         data.userId = 'user-1'
 
-				if ( suggestionData.originalSuggestionId ) {
-					data.originalSuggestionId = suggestionData.originalSuggestionId 
-				}
-        
-				return axios({                   
+        if (suggestionData.originalSuggestionId) {
+          data.originalSuggestionId = suggestionData.originalSuggestionId
+        }
+
+        return axios({
           method: "POST",
           url: "http://localhost:3001/suggestion",
           data: data
         })
-					.then( response => {
-						return {
-							createdAt: new Date()
-						};
-					} );
-			},
+          .then(response => {
+            return {
+              createdAt: new Date()
+            };
+          });
+      },
 
       updateSuggestion: (id, suggestionData) => {
-        console.log( 'Suggestion updated', id, suggestionData );
+        console.log('Suggestion updated', id, suggestionData);
 
         let data = {}
 
-				if ( suggestionData.hasComments !== undefined ) {
-					data.hasComments = suggestionData.hasComments ;
-				}
+        if (suggestionData.hasComments !== undefined) {
+          data.hasComments = suggestionData.hasComments;
+        }
 
-				if ( suggestionData.state !== undefined ) {
-					data.state = suggestionData.state ;
-				}
+        if (suggestionData.state !== undefined) {
+          data.state = suggestionData.state;
+        }
 
-				return axios({                         //function for Update Suggestion
-           method: "PUT",
-           url: `http://localhost:3001/suggestion/${id}`,
-           data: suggestionData
-        }).then( response => console.log(response))
-        .catch(error => console.log(error))
-			}
+        return axios({                         //function for Update Suggestion
+          method: "PUT",
+          url: `http://localhost:3001/suggestion/${id}`,
+          data: suggestionData
+        }).then(response => console.log(response))
+          .catch(error => console.log(error))
+      }
     };
 
     commentsRepositoryPlugin.adapter = {
@@ -288,16 +264,16 @@ class TrackChangesIntegration {
           url: `http://localhost:3001/comment/${threadId}`,
           method: "GET"
         })
-        .then((res) => {
-          let comment = {}
-          comment.threadId = threadId
-          comment.comments = [
-              { commentId: res.data.data[0].commentId, content: res.data.data[0].content, authorId: res.data.data[0].userId, createdAt: new Date(res.data.data[0].createdAt)}
+          .then((res) => {
+            let comment = {}
+            comment.threadId = threadId
+            comment.comments = [
+              { commentId: res.data.data[0].commentId, content: res.data.data[0].content, authorId: res.data.data[0].userId, createdAt: new Date(res.data.data[0].createdAt) }
             ]
-          return comment
-        }).catch((err) => {
-          console.log(err)
-        })
+            return comment
+          }).catch((err) => {
+            console.log(err)
+          })
 
       },
       addComment: data => {  //function for add comments
@@ -315,13 +291,13 @@ class TrackChangesIntegration {
           url: "http://localhost:3001/comment",
           data: commentData
         })
-        .then( response => {
-          return {
-            createdAt: new Date()
-          };
-        } ).catch((err) => {
-          console.log(err)
-        })
+          .then(response => {
+            return {
+              createdAt: new Date()
+            };
+          }).catch((err) => {
+            console.log(err)
+          })
       },
 
       updateComment: data => {    //function for update comments
@@ -341,7 +317,7 @@ class TrackChangesIntegration {
           console.log(err)
         })
       },
-      
+
       removeComment: data => { //function for remove comments
         console.log('Comment removed', data);
 
@@ -353,18 +329,20 @@ class TrackChangesIntegration {
         }).catch((err) => {
           console.log(err)
         })
-        
+
       },
     };
   }
 }
 
-export const EditNotes = () => {
+export const EditNotes = ({socket}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { pathname } = useLocation();
   return (
-    <TrackChanges navigate={navigate} params={id} path={pathname} />
+    <>
+      <TrackChanges navigate={navigate} params={id} path={pathname} socket={socket}/>
+    </>
   )
 }
 

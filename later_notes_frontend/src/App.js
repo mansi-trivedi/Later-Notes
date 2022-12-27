@@ -15,7 +15,10 @@ import { EditNotes } from './components/EditNotes';
 import EditProfile from './components/EditProfile';
 import DownloadFile from './components/DownloadFile';
 import ShareNotes from './components/ShareNotes';
+import io from 'socket.io-client'
 
+let socket;
+const CONNECTION_PORT = "http://localhost:3001/";
 
 function App() {
 
@@ -25,8 +28,10 @@ function App() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       setCurrentUser(user);
+      socket = io(CONNECTION_PORT);
     }
   }, []);
+
 
   return (
     <>
@@ -40,9 +45,9 @@ function App() {
           <Route path='/forgotPassword' element={<ForgotPassword />} />
           <Route path='/Dashboard' element={<Dashboard />} />
           <Route path='/AboutUS' element={<AboutUs />} />
-          <Route path='/MyNotes' element={<Notes/>} />
+          <Route path='/MyNotes' element={<Notes />} />
           <Route path="/DeleteNote/:id" element={<DeleteNotes />} />
-          <Route path="/EditNote/:id" element={<EditNotes />} />
+          <Route path="/EditNote/:id" element={<EditNotes socket={socket} />} />
           <Route path="/DownloadNote/:id" element={<DownloadFile/>} />
           <Route path="/ShareNote/:id" element={<ShareNotes/>} />
           <Route path='/UserProfile' element={<EditProfile/>} />
