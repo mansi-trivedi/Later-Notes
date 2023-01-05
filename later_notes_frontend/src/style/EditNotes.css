@@ -71,19 +71,15 @@ button img {
 
 .container {
   display: flex;
-  position: relative;
+  position: relative; 
 }
 
 .container .ck.ck-editor {
   width: 1300px;
+  
 } 
 
 .container .ck-editor__editable {
   width: 1300px !important;
+  height: 470px !important;
 } 
-
-.sidebar {
-  background-color: white;
-  min-width: 300px; 
-  padding: 0px 10px;
-}

@@ -5,14 +5,14 @@ import { useNavigate, useLocation, useParams } from "react-router";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
-const appData = {
+/*const appData = {
   users: [
     {
       id: 'user-1',
       name: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).user.username : "Demo"
     }
   ]
-};
+};*/
 
 export class TrackChanges extends React.Component {
 
@@ -27,6 +27,7 @@ export class TrackChanges extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.updateHandler = this.updateHandler.bind(this);
     this.sidebarElementRef = React.createRef();
+    this.presenceListElementRef = React.createRef();
     this.room = this.props.params
   }
 
@@ -40,11 +41,11 @@ export class TrackChanges extends React.Component {
         },
       })
       this.setState({ editNote: response.data.data[0] })
-      this.props.socket.emit("joinRoom", this.room )
-      this.props.socket.on("receiveMessage", (data) => {
-        console.log(data)
-        alert(data)
-      })
+      // this.props.socket.emit("joinRoom", this.room)
+      // this.props.socket.on("receiveMessage", (data) => {
+      //   console.log(data)
+      //   alert(data)
+      // })
     }
     catch (error) {
       console.log(error)
@@ -79,11 +80,11 @@ export class TrackChanges extends React.Component {
   handleChange(e, editor) {
     if (this.state.editNote.desc !== editor.getData()) {
       let data = editor.getData();
+      console.log(data)
       this.setState({ editorData: data })
-      this.props.socket.emit("updating", { message: `${this.user} is updating the note ${this.props.params}`, room: this.room })
+      // this.props.socket.emit("updating", { message: `${this.user} is updating the note ${this.props.params}`, room: this.room })
     }
   }
-
   render() {
     return (
       <>
@@ -116,7 +117,7 @@ export class TrackChanges extends React.Component {
                     onChange={this.handleChange}
                     editor={Editor}
                     config={{
-                      extraPlugins: [TrackChangesIntegration],
+                      // extraPlugins: [TrackChangesIntegration],
                       exportPdf: {
                         stylesheets: ['EDITOR_STYLES'],
                         fileName: 'demo.pdf',
@@ -155,7 +156,19 @@ export class TrackChanges extends React.Component {
                           orientation: 'portrait'
                         },
                       },
-                      licenseKey: '8IaxBmSPg7BqjT7H84CPrzQpNcaip4P9ScPSA2mdBv7DrFvF4ml+UXtbYg=='
+                      cloudServices: {
+                        tokenUrl: "https://94597.cke-cs.com/token/dev/mQkBC1OY5wyevkg15L9q1F6hIscGI753U2ol?limit=10",
+                        webSocketUrl: "wss://94597.cke-cs.com/ws"
+                      },
+                      collaboration: {
+                        channelId: `${this.props.params}`
+                      },
+                      sidebar: {
+                        container: this.sidebarElementRef.current
+                      },
+                      presenceList: {
+                        container: this.presenceListElementRef.current
+                      },
                     }}
                   />
                 </div>
@@ -168,8 +181,7 @@ export class TrackChanges extends React.Component {
   }
 }
 
-
-class TrackChangesIntegration {
+/*class TrackChangesIntegration {
   constructor(editor) {
     this.editor = editor;
   }
@@ -333,15 +345,15 @@ class TrackChangesIntegration {
       },
     };
   }
-}
+}*/
 
-export const EditNotes = ({socket}) => {
+export const EditNotes = ({ socket }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { pathname } = useLocation();
   return (
     <>
-      <TrackChanges navigate={navigate} params={id} path={pathname} socket={socket}/>
+      <TrackChanges navigate={navigate} params={id} path={pathname} socket={socket} />
     </>
   )
 }
