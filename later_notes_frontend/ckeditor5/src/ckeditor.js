@@ -4,8 +4,6 @@
  */
 import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor.js';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment.js';
-import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat.js';
-import Autosave from '@ckeditor/ckeditor5-autosave/src/autosave.js';
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote.js';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold.js';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices.js';
@@ -21,15 +19,14 @@ import Heading from '@ckeditor/ckeditor5-heading/src/heading.js';
 import Highlight from '@ckeditor/ckeditor5-highlight/src/highlight.js';
 import ImportWord from '@ckeditor/ckeditor5-import-word/src/importword.js';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent.js';
+import IndentBlock from '@ckeditor/ckeditor5-indent/src/indentblock.js';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic.js';
-import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed.js';
 import PageBreak from '@ckeditor/ckeditor5-page-break/src/pagebreak.js';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph.js';
 import RealTimeCollaborativeComments from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativecomments.js';
 import RealTimeCollaborativeEditing from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativeediting.js';
 import RealTimeCollaborativeTrackChanges from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativetrackchanges.js';
 import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough.js';
-import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline.js';
 import Comments from '@ckeditor/ckeditor5-comments/src/comments.js';
 import TrackChanges from '@ckeditor/ckeditor5-track-changes/src/trackchanges.js';
@@ -39,8 +36,6 @@ class Editor extends ClassicEditor {}
 // Plugins to include in the build.
 Editor.builtinPlugins = [
 	Alignment,
-	Autoformat,
-	Autosave,
 	BlockQuote,
 	Bold,
 	CloudServices,
@@ -56,15 +51,14 @@ Editor.builtinPlugins = [
 	Highlight,
 	ImportWord,
 	Indent,
+	IndentBlock,
 	Italic,
-	MediaEmbed,
 	PageBreak,
 	Paragraph,
 	RealTimeCollaborativeComments,
 	RealTimeCollaborativeEditing,
 	RealTimeCollaborativeTrackChanges,
 	Strikethrough,
-	TextTransformation,
 	Underline,
 	Comments,
 	TrackChanges
@@ -75,14 +69,10 @@ Editor.defaultConfig = {
 	toolbar: {
 		items: [
 			'heading',
-			'|',
 			'bold',
 			'italic',
 			'underline',
 			'strikethrough',
-			'bulletedList',
-			'numberedList',
-			'pageBreak',
 			'|',
 			'blockQuote',
 			'fontBackgroundColor',
@@ -90,17 +80,20 @@ Editor.defaultConfig = {
 			'fontFamily',
 			'fontSize',
 			'highlight',
+			'bulletedList',
+			'numberedList',
 			'outdent',
 			'indent',
-			'mediaEmbed',
 			'|',
 			'exportPdf',
 			'exportWord',
 			'importWord',
-			'trackChanges',
 			'comment',
-			'undo',
-			'redo'
+			'trackChanges',
+			'|',
+			'pageBreak',
+			'redo',
+			'undo'
 		]
 	},
 	language: 'en',
@@ -108,8 +101,7 @@ Editor.defaultConfig = {
 		editorConfig: {
 			extraPlugins: [
 				Bold,
-				Italic,
-				Autoformat
+				Italic
 			]
 		}
 	}

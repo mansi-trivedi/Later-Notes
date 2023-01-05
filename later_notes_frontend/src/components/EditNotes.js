@@ -23,7 +23,7 @@ export class TrackChanges extends React.Component {
       editorData: "",
     };
     this.token = JSON.parse(localStorage.getItem('user')).token
-    this.user = JSON.parse(localStorage.getItem('user')).user.username
+    this.user = JSON.parse(localStorage.getItem('user')).user
     this.handleChange = this.handleChange.bind(this);
     this.updateHandler = this.updateHandler.bind(this);
     this.sidebarElementRef = React.createRef();
@@ -157,7 +157,7 @@ export class TrackChanges extends React.Component {
                         },
                       },
                       cloudServices: {
-                        tokenUrl: "https://94597.cke-cs.com/token/dev/mQkBC1OY5wyevkg15L9q1F6hIscGI753U2ol?limit=10",
+                        tokenUrl: `https://94597.cke-cs.com/token/dev/mQkBC1OY5wyevkg15L9q1F6hIscGI753U2ol?user.name=${this.user.username}&sub=${this.user.id}`,
                         webSocketUrl: "wss://94597.cke-cs.com/ws"
                       },
                       collaboration: {
